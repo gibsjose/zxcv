@@ -1,0 +1,92 @@
+#!/usr/bin/env python2.7
+"""zxcv: show password strength statistics using the `zxcvbn` library
+
+Usage:
+    zxcv <password>
+    zxcv (-h | --help)
+    zxcv (-v | --version)
+
+Options:
+    -h --help       Show this screen.
+    -v --version    Show version.
+    <password>      Password to analyze.
+
+"""
+
+#   zxcv: show password strength statistics using the `zxcvbn` library
+#
+#   12 Dec 2015
+#
+#   Joe Gibson (gibsjose@mail.gvsu.edu)
+#
+#   License: MIT (http://gibsjose.mit-license.org)
+#
+#   https://gibsjose.com
+#   https://github.com/gibsjose/zxcv
+
+import sys
+import os
+import traceback
+import time
+import zxcvbn
+from docopt import docopt
+
+def print_score(score):
+    """Print the score as a series of # characters"""
+    s = ''
+
+    for i in range(0, score + 1):
+        s += '#'
+
+    return s
+
+def print_strength(strength):
+    """Print the password strength
+
+    Keys in strength object:
+    ------------------------
+    entropy:                # entropy in bits.
+
+    crack_time:             # estimation of actual crack time, in seconds.
+
+    crack_time_display:     # same crack time, as a friendlier string:
+                            # "instant", "6 minutes", "centuries", etc.
+
+    score:                  # [0,1,2,3,4] if crack time is less than
+                            # [10**2, 10**4, 10**6, 10**8, Infinity].
+                            # (useful for implementing a strength bar.)
+
+    match_sequence:         # the list of patterns that zxcvbn based the
+                            # entropy calculation on.
+
+    calc_time:              # how long it took to calculate an answer,
+                            # in milliseconds. usually only a few ms.
+    """
+
+    print 'Entropy: ' + str(strength['entropy']) + ' bits'
+    print 'Crack Time: ' + strength['crack_time_display'] + ' (' + str(strength['crack_time']) + 's)'
+    print 'Score: ' + print_score(strength['score']) + ' (' + str(strength['score'] + 1) + ')'
+    print 'Calculation Time: ' + str(strength['calc_time']) + 'ms'
+
+def main():
+    """Grab the password from the user and score it"""
+    password = arguments['<password>']
+    strength = zxcvbn.password_strength(password)
+    print_strength(strength)
+
+if __name__ == '__main__':
+    try:
+        global arguments
+        arguments = docopt(__doc__, version='zxcv 1.0.0')
+        main()
+        sys.exit(0)
+
+    except KeyboardInterrupt as e: # Ctrl-C
+        raise e
+    except SystemExit as e: # sys.exit()
+        raise e
+    except Exception as e:
+        print 'Error: Unexpected Exception'
+        print str(e)
+        traceback.print_exc()
+        os._exit(1)

@@ -1,0 +1,19 @@
+{
+    "authors": [
+        {
+            "email": "gibsjose@mail.gvsu.edu",
+            "name": "Joe Gibson"
+        }
+    ],
+    "git": true,
+    "git-push": false,
+    "git-remote": "https://github.com/gibsjose/zxcv",
+    "language": "python",
+    "license": "MIT",
+    "license-url": "http://gibsjose.mit-license.org",
+    "project": "zxcv",
+    "websites": [
+        "https://gibsjose.com",
+        "https://github.com/gibsjose/zxcv"
+    ]
+}
