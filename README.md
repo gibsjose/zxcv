@@ -2,9 +2,9 @@
 Show password strength statistics using the `zxcvbn` library.
 
 ## Installation
-First grab the `docopts` module:
+First grab the `zxcvbn-py3` and `docopts` modules:
 ```bash
-pip install docopts
+pip3 install zxcvbn-py3 docopts
 ```
 
 Then install using Homebrew:
@@ -37,4 +37,4 @@ Calculation Time: 0.00177001953125ms
 ```
 
 ## Caveats
-Unfortunately, this depends on the `python-zxcvbn` module, which currently does not support Python 3.
+Terminals that do not support Unicode (UTF-8) characters may not display the score bar correctly.
